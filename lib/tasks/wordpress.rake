@@ -100,7 +100,11 @@ namespace :wordpress do
     # parse all created BlogPost and Page bodys and replace the old wordpress media uls 
     # with the newly created ones
     attachments.each do |attachment|
-      attachment.replace_url
+      begin
+        attachment.replace_url
+      rescue OpenURI::HTTPError => e
+        puts "Error: #{e.inspect} :: for :: #{attachment.url}"
+      end
     end
   end
 
