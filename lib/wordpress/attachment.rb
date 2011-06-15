@@ -90,7 +90,7 @@ module Refinery
       end
 
       def replace_image_url_in_blog_posts
-        replace_url_in_blog_posts(refinery_image.image.url)
+        replace_url_in_blog_posts(refinery_image.image.url, refinery_image)
       end
       
       def replace_image_url_in_pages
@@ -105,11 +105,15 @@ module Refinery
         replace_url_in_pages(refinery_resource.file.url)
       end
 
-      def replace_url_in_blog_posts(new_url)
+      def replace_url_in_blog_posts(new_url, image_file = nil)
         ::BlogPost.all.each do |post|
           if (! post.body.empty?) && post.body.include?(url)
+            puts "Substituting: #{new_url} in blog: #{post.title}"
             post.body = post.body.gsub(url_pattern, new_url)
             post.save!
+            if image_file && post.images.empty?
+              post.images << image_file
+            end
           end
         end
       end

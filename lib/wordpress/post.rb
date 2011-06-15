@@ -36,11 +36,13 @@ module Refinery
           unless user
         
         begin
+          puts "Importing: #{title}"
           post = ::BlogPost.new :title => title, :body => content_formatted, 
             :draft => draft?, :published_at => post_date, :created_at => post_date, 
             :author => user, :tag_list => tag_list
           post.save!
 
+          puts "Import Success: #{post.title}"
           ::BlogPost.transaction do
             categories.each do |category|
               post.categories << category.to_refinery
@@ -57,6 +59,7 @@ module Refinery
           # refinery doesn't) append the post_id to it, making it unique
           post.title = "#{title}-#{post_id}"
           post.save
+          puts "Import Success: #{post.title}"
         end
 
         post

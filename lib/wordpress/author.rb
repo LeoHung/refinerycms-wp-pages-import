@@ -24,11 +24,13 @@ module Refinery
       end
 
       def to_refinery
+        puts "Importing author: #{login}"
         user = User.find_or_initialize_by_username_and_email(login, email)
         unless user.persisted?
           user.password = 'password'
           user.password_confirmation = 'password'
           user.save
+          puts "Import author: #{user.username}"
         end
         user
       end

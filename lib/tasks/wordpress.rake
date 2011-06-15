@@ -95,16 +95,19 @@ namespace :wordpress do
     Rake::Task["environment"].invoke
     dump = Refinery::WordPress::Dump.new(params[:file_name])
     
-    attachments = dump.attachments.each(&:to_refinery)
-    
+    attachments = dump.attachments.each do |raw_attachment|
+      begin
+        raw_attachment.to_refinery
+      rescue => e
+        puts "Error: #{e.inspect} :: for :: #{raw_attachment.url}"
+      end
+    end 
+
     # parse all created BlogPost and Page bodys and replace the old wordpress media uls 
     # with the newly created ones
-    attachments.each do |attachment|
-      begin
-        attachment.replace_url
-      rescue OpenURI::HTTPError => e
-        puts "Error: #{e.inspect} :: for :: #{attachment.url}"
-      end
+    attachments.select{|a| a.refinery_resource || a.refinery_image}.each do |attachment|
+      puts "Replacing Url: #{attachment.replace_url}"
+      attachment.replace_url
     end
   end
 
