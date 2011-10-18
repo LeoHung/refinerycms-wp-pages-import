@@ -15,4 +15,8 @@ end
 # gem 'ruby-debug19'
 
 gem 'refinerycms'
-gem 'refinerycms-blog', :git => "git://github.com/wikyd/refinerycms-blog.git"
+gem 'refinerycms-blog',            :git => "git://github.com/wikyd/refinerycms-blog.git", :branch => "custom_teasers"
+gem 'refinerycms-page-images', '~> 1.0', :git => "git://github.com/resolve/refinerycms-page-images.git"
+gem 'refinerycms-settings-initializer'
+gem 'refinerycms-resource_guides', :git => 'git://github.com/raphaelcm/resource_guides.git'
+gem 'refinerycms-resource_documents', :git => 'git://github.com/raphaelcm/Refinery-CMS-Resource-Documents.git'

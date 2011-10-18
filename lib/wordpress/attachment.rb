@@ -80,51 +80,27 @@ module Refinery
       end
 
       def replace_image_url
-        replace_image_url_in_blog_posts
-        replace_image_url_in_pages
+        replace_image_url_in_guides
       end
 
       def replace_resource_url
-        replace_resource_url_in_blog_posts
-        replace_resource_url_in_pages
-      end
-
-      def replace_image_url_in_blog_posts
-        replace_url_in_blog_posts(refinery_image.image.url, refinery_image)
+        replace_resource_url_in_guides
       end
       
-      def replace_image_url_in_pages
-        replace_url_in_pages(refinery_image.image.url)
-      end
-
-      def replace_resource_url_in_blog_posts
-        replace_url_in_blog_posts(refinery_resource.file.url)
+      def replace_image_url_in_guides
+        replace_url_in_guides(refinery_image.image.url)
       end
       
-      def replace_resource_url_in_pages
-        replace_url_in_pages(refinery_resource.file.url)
+      def replace_resource_url_in_guides
+        replace_url_in_guides(refinery_resource.file.url)
       end
 
-      def replace_url_in_blog_posts(new_url, image_file = nil)
-        ::BlogPost.all.each do |post|
-          if (! post.body.empty?) && post.body.include?(url)
-            puts "Substituting: #{new_url} in blog: #{post.title}"
-            post.body = post.body.gsub(url_pattern, new_url)
-            post.save!
-            if image_file && post.images.empty?
-              post.images << image_file
-            end
-          end
-        end
-      end
-
-      def replace_url_in_pages(new_url)
-        ::Page.all.each do |page|
-          page.parts.each do |part|
-            if (! part.body.to_s.blank?) && part.body.include?(url)
-              part.body = part.body.gsub(url_pattern, new_url)
-              part.save!
-            end
+      def replace_url_in_guides(new_url)
+        ResourceGuide.all.each do |guide|
+          if (! guide.body.to_s.blank?) && guide.body.include?(url)
+            puts "Replacing #{url_pattern} with #{new_url}"
+            guide.body = guide.body.gsub(url_pattern, new_url)
+            guide.save!
           end
         end
       end

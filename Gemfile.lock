@@ -1,6 +1,26 @@
 GIT
+  remote: git://github.com/raphaelcm/Refinery-CMS-Resource-Documents.git
+  revision: d6928f8d06811022483cc8699bd484c35dea4685
+  specs:
+    refinerycms-resource_documents (1.0)
+
+GIT
+  remote: git://github.com/raphaelcm/resource_guides.git
+  revision: dcbddc3fa885c56268db78e28cda4a393b5f8d9e
+  specs:
+    refinerycms-resource_guides (1.0)
+
+GIT
+  remote: git://github.com/resolve/refinerycms-page-images.git
+  revision: dc8a303434dbf139df8078a5d370b6318f7c4a37
+  specs:
+    refinerycms-page-images (1.0.4)
+      refinerycms-pages (>= 0.9.9.1)
+
+GIT
   remote: git://github.com/wikyd/refinerycms-blog.git
-  revision: d93e550ff246a40700ac6498a4c4aab0c02f82ae
+  revision: 767346b6941dbdff3aa2ef1f58a87429597da212
+  branch: custom_teasers
   specs:
     refinerycms-blog (1.6.0)
       acts-as-taggable-on
@@ -38,7 +58,8 @@ GEM
       activemodel (= 3.0.8)
       activesupport (= 3.0.8)
     activesupport (3.0.8)
-    acts-as-taggable-on (2.0.6)
+    acts-as-taggable-on (2.1.1)
+      rails
     acts_as_indexed (0.7.2)
     arel (2.0.10)
     awesome_nested_set (2.0.0)
@@ -146,6 +167,8 @@ GEM
       refinerycms-core (= 1.0.0)
     refinerycms-settings (1.0.0)
       refinerycms-base (= 1.0.0)
+    refinerycms-settings-initializer (0.9.1)
+      refinerycms-settings (~> 1.0.0)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -181,4 +204,8 @@ DEPENDENCIES
   guard-rspec
   refinerycms
   refinerycms-blog!
+  refinerycms-page-images (~> 1.0)!
+  refinerycms-resource_documents!
+  refinerycms-resource_guides!
+  refinerycms-settings-initializer
   rspec-rails (>= 2.6.0)

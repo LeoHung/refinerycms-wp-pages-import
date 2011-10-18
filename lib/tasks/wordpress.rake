@@ -71,14 +71,13 @@ namespace :wordpress do
     Rake::Task["friendly_id:redo_slugs"].invoke
     ENV.delete("MODEL")
   end
-  
+
   desc "reset cms tables and then import cms data from a WordPress XML dump"
   task :reset_and_import_pages, :file_name do |task, params|
     Rake::Task["environment"].invoke
     Rake::Task["wordpress:reset_pages"].invoke
     Rake::Task["wordpress:import_pages"].invoke(params[:file_name])
   end
-
 
   desc "Reset the media relevant tables for a clean import"
   task :reset_media do
@@ -88,6 +87,42 @@ namespace :wordpress do
       p "Truncating #{table_name} ..."
       ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}"
     end
+  end
+
+  ###
+  #
+  # Rake tasks for importing Resource Guides and Images
+  #
+  ###
+
+  desc "Reset the resource guide relevant tables for a clean import"
+  task :reset_guides do
+    Rake::Task["environment"].invoke
+
+    %w(resource_guides).each do |table_name|
+      p "Truncating #{table_name} ..."
+      ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}"
+    end
+  end
+
+  desc "Clear, then import resource guides from a WordPress XML dump"
+  task :import_guides, :file_name do |task, params|
+    Rake::Task["environment"].invoke
+    dump = Refinery::WordPress::Dump.new(params[:file_name])
+
+    only_published = ENV['ONLY_PUBLISHED'] == 'true' ? true : false
+    dump.pages(only_published).each(&:to_refinery)
+        
+    ENV["MODEL"] = 'ResourceGuide'
+    Rake::Task["friendly_id:redo_slugs"].invoke
+    ENV.delete("MODEL")
+  end
+
+  desc "reset guide tables and then import guide data from a WordPress XML dump"
+  task :reset_and_import_guides, :file_name do |task, params|
+    Rake::Task["environment"].invoke
+    Rake::Task["wordpress:reset_guides"].invoke
+    Rake::Task["wordpress:import_guides"].invoke(params[:file_name])
   end
 
   desc "import media data (images and files) from a WordPress XML dump and replace target URLs in pages and posts"
@@ -110,6 +145,12 @@ namespace :wordpress do
       attachment.replace_url
     end
   end
+
+  ###
+  #
+  # END - Rake tasks for importing Resource Guides and Images
+  #
+  ###
 
   desc "reset media tables and then import media data from a WordPress XML dump"
   task :reset_import_and_replace_media, :file_name do |task, params|

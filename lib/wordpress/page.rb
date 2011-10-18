@@ -46,9 +46,15 @@ module Refinery
         node.xpath("wp:post_id").text.to_i
       end
 
-      def parent_id
-        dump_id = node.xpath("wp:post_parent").text.to_i
-        dump_id == 0 ? nil : dump_id
+      def audience_type
+        case node.xpath("wp:post_parent").text.to_i
+        when 7
+          'employers'
+        when 5
+          'students'
+        else
+          nil
+        end
       end
 
       def status
@@ -68,11 +74,12 @@ module Refinery
       end
 
       def to_refinery
-        page = ::Page.create!(:id => post_id, :title => title, 
-          :created_at => post_date, :draft => draft?)
-
-        page.parts.create(:title => 'Body', :body => content_formatted)
-        page
+        unless audience_type == nil
+          guide = ResourceGuide.create!(:id => post_id, :title => title, 
+            :created_at => post_date, :body => content_formatted, :author => GuideAuthor.first, :audience_type => audience_type)
+          return guide
+        end
+        "Not employer or student page, skipping."
       end
 
       private 
