@@ -1,9 +1,9 @@
 # Provide a simple gemspec so you can easily use your enginex
 # project in your rails apps through git.
 Gem::Specification.new do |s|
-  s.name        = "refinerycms-wordpress-import"
-  s.summary     = "Import WordPress XML dumps into refinerycms(-blog)."
-  s.description = "This gem imports a WordPress XML dump into refinerycms (Page, User) and refinerycms-blog (BlogPost, BlogCategory, Tag, BlogComment)"
+  s.name        = "refinerycms-wp-pages-import"
+  s.summary     = "Import WordPress XML dump into refinerycms."
+  s.description = "This gem imports a WordPress XML dump into refinerycms (ResourceGuides)"
   s.version     = "0.3.0"
   s.date        = "2011-06-13"
 
