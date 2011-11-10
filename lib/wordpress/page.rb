@@ -76,7 +76,7 @@ module Refinery
       def to_refinery
         unless audience_type == nil
           guide = ResourceGuide.create!(:id => post_id, :title => title, 
-            :created_at => post_date, :body => content_formatted, :author => GuideAuthor.first, :audience_type => audience_type)
+            :created_at => post_date, :body => content_formatted, :guide_author => GuideAuthor.first, :audience_type => audience_type)
           return guide
         end
         "Not employer or student page, skipping."
